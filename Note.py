@@ -15,6 +15,9 @@ class Note:
     def __str__(self):
         return "%s\n%s\n%s\n" % (self.title, self.content, self.tags)
 
+    def replacetitle(self, title):
+        self.title = title
+
     def replacecontent(self, content):
         self.content = content
 
@@ -22,18 +25,17 @@ class Note:
         self.tags.append(tag)
         # Log?
 
-    def removetag(self, tag=None, title=None):
+    def removetag(self, target=None, title=None):
         ret = False
-        if tag is None:
+        if isinstance(target, Tag):
             for tag in self.tags:
-                if tag.title.lower() == title.lower():
-                    self.tags.remove(tag)
+                if tag.title == target.title:
                     ret = True
 
-        else:
-            if tag in self.tags:
-                self.tags.remove(tag)
-                ret = True
+        elif isinstance(target, str):
+            for tag in self.tags:
+                if tag.title == target:
+                    ret = True
 
         return ret
 
